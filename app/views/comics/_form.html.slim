@@ -3,7 +3,7 @@
     .card-content
       = error_messages_for(f.object)
 
-      = f.hidden_field :user_id, f.object.user_id
+      = f.hidden_field :user_id, value: f.object.user_id
 
       .input-field
         = f.text_field :title

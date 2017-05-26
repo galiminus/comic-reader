@@ -17,7 +17,7 @@ class ComicsController < ApplicationController
   end
 
   def create
-    @comic = Comic.new(params.require(:comic).permit(:title, :description, page_ids: []))
+    @comic = Comic.new(params.require(:comic).permit(:user_id, :title, :description, page_ids: []))
 
     if @comic.save
       redirect_to @comic
