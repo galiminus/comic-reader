@@ -1,6 +1,7 @@
 class Comic < ApplicationRecord
   has_many :pages
-
+  belongs_to :user
+  
   validates :title, presence: true
   validate :has_at_least_one_page
 

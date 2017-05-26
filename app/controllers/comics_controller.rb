@@ -13,7 +13,7 @@ class ComicsController < ApplicationController
   end
 
   def new
-    @comic = Comic.new
+    @comic = Comic.new(user: current_user)
   end
 
   def create
