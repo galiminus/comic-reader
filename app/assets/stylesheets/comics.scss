@@ -1,0 +1,41 @@
+// Place all the styles related to the comics controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#comic-file-upload-dropzone {
+  .dropzone {
+    padding: 5em 0px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    background: image-url("giftly.png");
+
+    transition: padding 0.4s;
+
+    .material-icons {
+      font-size: 7em;
+      opacity: 0.5;
+      transition: font-size 0.4s;
+    }
+    p {
+      font-size: 1.2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+  input {
+    visibility: hidden;
+  }
+  &.uploading {
+    .dropzone {
+      padding: 1em 0px;
+    }
+    .material-icons {
+      font-size: 3em;
+    }
+  }
+}
+
+#new_comic .card {
+  transition: height 0.2s;
+}

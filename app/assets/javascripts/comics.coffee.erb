@@ -1,0 +1,61 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+aws_url = '<%= ENV["DIRECT_UPLOAD_S3_URL"] %>'
+bucket = '<%= ENV["DIRECT_UPLOAD_S3_BUCKET"] %>'
+
+evaporate = new Evaporate
+  awsSignatureVersion: '2'
+  signerUrl: '/s3/sign'
+  aws_key: '<%= ENV["DIRECT_UPLOAD_AWS_ACCESS_KEY_ID"] %>'
+  aws_url: aws_url
+  bucket: bucket
+
+$(document).on "ready turbolinks:load", ->
+  dropZoneWrapper = $("#comic-file-upload-dropzone")
+
+  handleUpload = (file) ->
+    extension = file.name.split('.').pop()
+    evaporate.add
+      name: "#{dropZoneWrapper.data('owner')}/#{Math.floor(Date.now())}.#{extension}"
+      file: file
+      started: ->
+        Materialize.toast("Uploading #{file.name}", 3000)
+
+      complete: (_xhr, path) ->
+        fileUrl = aws_url + '/' + bucket + '/' + path
+        $.ajax
+          method: 'post'
+          url: dropZoneWrapper.data("path")
+          dataType: "json"
+          data:
+            page:
+              s3_file_url: fileUrl
+          success: (response) ->
+            $.get "/pages/#{response.id}", (page) ->
+              $("#pages")
+                .append(
+                  $("<div>").addClass("col s12 m6 l4")
+                    .append(page)
+                    .append(
+                      $("<input>").prop({ type: "hidden", name: "comic[page_ids][]" }).val(response.id)
+                    )
+                  )
+            , "html"
+
+  handleMultipleUpload = (files) ->
+    dropZoneWrapper.addClass("uploading")
+    promises = []
+    promises.push(handleUpload(file)) for file in files
+    Promise.all(promises).then ->
+      console.log("END")
+
+  dropZoneWrapper.find(".dropzone")
+    .on('dragover', false)
+    .on("drop", (event) -> handleMultipleUpload(event.originalEvent.dataTransfer.files))
+
+  dropZoneWrapper.find(".dropzone").click (event) ->
+    dropZoneWrapper.find("[type=file]").click()
+
+  dropZoneWrapper.find("[type=file]").change (event) -> handleMultipleUpload(event.target.files)

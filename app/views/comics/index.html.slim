@@ -1,0 +1,10 @@
+- content_for :navigation
+  = render partial: "comics/navigation"
+
+#comics.section.gray
+  .container
+    .gallery.row
+      - @comics.each do |comic|
+        .col.l4.m6.s12.gallery-item.gallery-expand.gallery-filter.polygon data-opened="#{@comic.present? && comic.id == @comic.id}" data-route="#{comic_path(comic)}"
+          = render partial: "comics/comic", locals: { comic: comic }
+  

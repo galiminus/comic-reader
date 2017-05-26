@@ -1,0 +1,17 @@
+.container.full-height
+  .row.valign-wrapper.full-height
+    .col.s6.offset-s3.valign
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        .card.z-depth-05
+          .card-content
+            = devise_error_messages!
+            = f.hidden_field :reset_password_token
+            .input-field
+              = f.label :password, t('.password')
+              = f.password_field :password, autofocus: true, autocomplete: "off"
+            .input-field
+              = f.label :password_confirmation, t('.password_confirmation')
+              = f.password_field :password_confirmation, autocomplete: "off"
+
+          .card-action.right-align
+            = f.button t('.submit'), class: 'btn waves-effect waves-light z-depth-0'

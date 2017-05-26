@@ -1,0 +1,67 @@
+.container
+  .row
+    .col.s12.m12.l10.offset-l1
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+        .card
+          .card-content
+            = devise_error_messages!
+
+            .row
+              .col.s12
+                .input-field
+                  = f.label :name, t('.name')
+                  = f.text_field :name, autofocus: true, required: true, class: "character_counter", length: 100
+
+              .col.s12
+                .input-field
+                  = f.label :email, t('.email')
+                  = f.email_field :email, autofocus: true
+
+              .col.s12
+                .input-field.with-info
+                  = f.label :password, t('.password')
+                  = f.password_field :password, autocomplete: "off"
+                  %span.input-info= t('.password_change_instruction')
+
+              .col.s12
+                .input-field
+                  = f.label :password_confirmation, t('.password_confirmation')
+                  = f.password_field :password_confirmation, autocomplete: "off"
+
+            .row
+              .col.s12
+                = f.check_box :show_adult_content, id: "show_adult_content"
+                = f.label(:show_adult_content, t('.show_adult_content'), for: "show_adult_content")
+
+            .row
+              .col.s12
+                %h4= t('.email_notifications')
+
+              .col.s12
+                - User::NOTIFICATIONS_PERMISSIONS.each do |notification_setting|
+                  %div{style: 'margin-top: 0.8em;'}
+                    = f.check_box notification_setting, id: notification_setting
+                    = f.label(notification_setting, t(".#{notification_setting}"), for: notification_setting)
+
+          .card-action.flex-align
+            = link_to t('.destroy'), "#destroy-confirmation", class: 'red-text modal-trigger'
+            = f.button t('.submit'), class: 'waves-effect waves-light btn z-depth-0'
+
+#destroy-confirmation.modal
+  .modal-content.left-align
+    = t('.destroy_reminder')
+    - if current_user.quotations_as_commissioner.ongoing.any?
+      %ul.collection.with-header.z-depth-0
+        %li.collection-header= t('.artists')
+        - current_user.quotations_as_commissioner.ongoing.each do |quotation|
+          %li.collection-item= link_to quotation.artist.name, quotation_path(quotation)
+    - if current_user.quotations_as_artist.ongoing.any?
+      %ul.collection.with-header.z-depth-0
+        %li.collection-header= t('.commissioners')
+        - current_user.quotations_as_artist.ongoing.each do |quotation|
+          %li.collection-item= link_to quotation.commissioner.name, quotation_path(quotation)
+    %br
+    = t('.destroy_goodbye')
+
+  .modal-footer
+    = button_to t('.destroy_confirmation'), user_path(current_user), method: :delete, class: 'waves-effect waves-light btn red z-depth-0'

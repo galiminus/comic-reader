@@ -1,0 +1,80 @@
+html
+  head
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    = csrf_meta_tags
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'http://fonts.googleapis.com/css?family=Lato:300,400,700'
+    = stylesheet_link_tag    'https://fonts.googleapis.com/icon?family=Material+Icons'
+  body
+  
+    nav.nav-extended
+      .nav-background
+        .pattern.active style=("background-image: url('http://placehold.it/1400x300');") 
+      .nav-wrapper.container
+        = link_to root_path, class: "brand-logo" do
+          i.material-icons view_carousel
+          = ENV["SITE_NAME"]
+        a.button-collapse data-activates="nav-mobile" href="#" 
+          i.material-icons menu
+          ul.right.hide-on-med-and-down
+            - if user_signed_in?
+              = active_link_to 'Upload', new_comic_path,  wrap_tag: 'li', active: :exact
+              = active_link_to 'Sign out', destroy_user_session_path,  wrap_tag: 'li', method: :delete, active: :exact
+            - else
+                = active_link_to 'Sign up', new_user_registration_path, wrap_tag: 'li', active: :exact
+                = active_link_to 'Sign in', new_user_session_path, wrap_tag: 'li', active: :exact
+
+        /! Dropdown Structure
+        ul#feature-dropdown.dropdown-content
+          li
+            a href="full-header.html"  Fullscreen Header
+          li
+            a href="horizontal.html"  Horizontal Style
+          li
+            a href="no-image.html"  No Image Expand
+        / .nav-header.center
+        /   h1 I MAKE THINGS
+        /   .tagline Portfolio
+      = yield :navigation
+
+    ul#nav-mobile.side-nav
+      li.active
+        a href="index.html" 
+          i.material-icons camera
+          | Gallery
+      li
+        a href="index-dark.html" 
+          i.material-icons brightness_3
+          | Dark Theme
+      li
+        a href="blog.html" 
+          i.material-icons edit
+          | Blog
+      li
+        a href="docs.html" 
+          i.material-icons school
+          | Docs
+      li
+        a href="full-header.html" 
+          i.material-icons fullscreen
+          | Fullscreen Header
+      li
+        a href="horizontal.html" 
+          i.material-icons swap_horiz
+          | Horizontal Style
+      li
+        a href="no-image.html" 
+          i.material-icons texture
+          | No Image Expand
+
+    = yield
+    
+    = javascript_include_tag "imagesloaded.pkgd.min.js"
+    = javascript_include_tag "masonry.pkgd.min.js"
+    = javascript_include_tag "https://cdn.jsdelivr.net/materialize/0.98.0/js/materialize.min.js"
+    = javascript_include_tag "color-thief.min.js"
+    = javascript_include_tag "galleryExpand.js"
+    = javascript_include_tag "gallery.js"

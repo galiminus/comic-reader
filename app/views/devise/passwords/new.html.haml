@@ -1,0 +1,12 @@
+.container.full-height
+  .row.valign-wrapper.full-height
+    .col.s6.offset-s3.valign
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        .card.z-depth-05
+          .card-content
+            = devise_error_messages!
+            .input-field
+              = f.label :email, t('.email')
+              = f.email_field :email, autofocus: true, required: true
+          .card-action.right-align
+            = f.button t('.submit'), class: 'btn waves-effect waves-light z-depth-0'
