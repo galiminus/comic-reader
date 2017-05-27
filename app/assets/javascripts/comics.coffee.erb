@@ -5,6 +5,7 @@
 aws_url = '<%= ENV["DIRECT_UPLOAD_S3_URL"] %>'
 bucket = '<%= ENV["DIRECT_UPLOAD_S3_BUCKET"] %>'
 
+
 evaporate = new Evaporate
   awsSignatureVersion: '2'
   signerUrl: '/s3/sign'
@@ -12,8 +13,9 @@ evaporate = new Evaporate
   aws_url: aws_url
   bucket: bucket
 
-$(document).on "ready turbolinks:load", ->
+$(document).on "turbolinks:load", ->
   dropZoneWrapper = $("#comic-file-upload-dropzone")
+  moreImagesButton = $("#more-images")
 
   handleUpload = (file) ->
     extension = file.name.split('.').pop()
@@ -33,6 +35,8 @@ $(document).on "ready turbolinks:load", ->
             page:
               s3_file_url: fileUrl
           success: (response) ->
+            dropZoneWrapper.addClass("uploaded")
+            moreImagesButton.addClass("uploaded")
             $.get "/pages/#{response.id}", (page) ->
               $("#pages")
                 .append(
@@ -56,6 +60,11 @@ $(document).on "ready turbolinks:load", ->
     .on("drop", (event) -> handleMultipleUpload(event.originalEvent.dataTransfer.files))
 
   dropZoneWrapper.find(".dropzone").click (event) ->
+    dropZoneWrapper.find("[type=file]").click()
+
+  moreImagesButton.click (event) ->
+    # event.stopPropagation()
+    event.preventDefault()
     dropZoneWrapper.find("[type=file]").click()
 
   dropZoneWrapper.find("[type=file]").change (event) -> handleMultipleUpload(event.target.files)

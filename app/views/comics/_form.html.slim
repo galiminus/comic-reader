@@ -20,5 +20,9 @@
           p
             | Drag and drop all your pages here or click
         input type="file" multiple="multiple"
-    .card-action.right-align
+    .card-action.flex-align
+      div
+        button id="more-images" class="btn-flat"
+          i.material-icons.left cloud_upload
+          | Upload more pages
       = f.button "Save", class: "btn z-depth-0"
