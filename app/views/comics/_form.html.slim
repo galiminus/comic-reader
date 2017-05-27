@@ -3,8 +3,9 @@
     .card-content
       = error_messages_for(f.object)
 
-      = f.hidden_field :user_id, value: f.object.user_id
-
+      = f.hidden_field :user_id
+      = f.hidden_field :pages_order, value: Array(f.object.pages_order).to_json
+      
       .input-field
         = f.text_field :title
         = f.label "Title"
@@ -12,11 +13,11 @@
         = f.text_area :description, class: "materialize-textarea"
         = f.label "Synopsys"
         
-      #pages.row
-        - @comic.pages.each do |page|
+      #pages.sortable-cards.row
+        - @comic.ordered_pages.each do |page|
           .col.s12.m6.l4
             = render partial: "pages/show", locals: { page: page }
-            = f.hidden_field "page_ids[]", value: page.id
+            = f.hidden_field :page_ids, value: page.id, multiple: true
             
       #comic-file-upload-dropzone data-owner=current_user.id data-path=pages_path(format: :json)
         .dropzone

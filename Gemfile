@@ -78,3 +78,4 @@ gem 'pundit', '~> 1.0.1'
 
 gem 'jquery-rails'
 gem 'active_link_to'
+gem 'rails-assets-Sortable', source: 'https://rails-assets.org'

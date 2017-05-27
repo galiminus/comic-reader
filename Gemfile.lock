@@ -175,6 +175,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.1.1)
       sprockets-rails (>= 2.0.0)
+    rails-assets-Sortable (1.4.2)
     rails-assets-aws-sdk (2.57.0)
     rails-assets-dropzone (4.3.0)
     rails-assets-evaporatejs (2.0.9)
@@ -284,6 +285,7 @@ DEPENDENCIES
   puma (~> 3.7)
   pundit (~> 1.0.1)
   rails (~> 5.1.0)
+  rails-assets-Sortable!
   rails-assets-aws-sdk!
   rails-assets-dropzone!
   rails-assets-evaporatejs (~> 2.0.9)!

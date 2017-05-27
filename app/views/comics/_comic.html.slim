@@ -1,6 +1,6 @@
 .gallery-curve-wrapper
   = link_to comic, class: "gallery-cover gray" do
-    = image_tag comic.pages.try(:first).try(:file_url, :thumbnail), class: "responsive-img", alt: comic.title
+    = image_tag comic.ordered_pages.try(:first).try(:file_url, :thumbnail), class: "responsive-img", alt: comic.title
   = link_to comic, class: "gallery-header" do
     span= comic.title
   .gallery-body
@@ -10,7 +10,7 @@
     = format_text(comic.description)
     .carousel-wrapper
       .carousel
-        - comic.pages.each do |page|
+        - comic.ordered_pages.each do |page|
           a.carousel-item href="##{page.id}!" 
             = image_tag page.file_url(:thumbnail)
   .gallery-action

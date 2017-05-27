@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require materialize
 //= require evaporatejs
+//= require Sortable/Sortable
 //= require_tree .

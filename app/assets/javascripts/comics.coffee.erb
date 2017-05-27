@@ -14,6 +14,21 @@ evaporate = new Evaporate
   bucket: bucket
 
 $(document).on "turbolinks:load", ->
+
+  setPagesOrder = ->
+    $("#comic_pages_order").val(
+      JSON.stringify(($(child).data("id") for child in $("#pages .page").toArray()))
+    )
+
+  $('.sortable-cards').each (_i, sortableCardsEl) ->
+    sortableCards = $(sortableCardsEl)
+
+    sortable = new Sortable(sortableCardsEl, {
+      forceFallback: true,
+      animation: 150,
+      onUpdate: setPagesOrder
+    });
+
   dropZoneWrapper = $("#comic-file-upload-dropzone")
   moreImagesButton = $("#more-images")
 
@@ -49,14 +64,14 @@ $(document).on "turbolinks:load", ->
                       $("<input>").prop({ type: "hidden", name: "comic[page_ids][]" }).val(response.id)
                     )
                   )
+              setPagesOrder()
             , "html"
 
   handleMultipleUpload = (files) ->
     dropZoneWrapper.addClass("uploading")
     promises = []
     promises.push(handleUpload(file)) for file in files
-    Promise.all(promises).then ->
-      console.log("END")
+    # Promise.all(promises).then ->
 
   dropZoneWrapper.find(".dropzone")
     .on('dragover', false)
