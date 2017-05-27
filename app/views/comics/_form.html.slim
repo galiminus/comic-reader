@@ -2,7 +2,7 @@
   = "white"
 
 - content_for(:actions) do
-  = active_link_to 'Save', "#!",  wrap_tag: 'li', active: :exact, id: "save-comics-button"
+  = active_link_to 'Save', "#!",  wrap_tag: 'li', active: :exact, id: "save-comics-button", class: "disabled"
 
 = form_for @comic do |f|
   = error_messages_for(f.object)

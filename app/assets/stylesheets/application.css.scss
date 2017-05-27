@@ -30,3 +30,9 @@
     min-height: calc(100vh - 176px);
    }
  }
+
+.nav-wrapper ul li a.disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
