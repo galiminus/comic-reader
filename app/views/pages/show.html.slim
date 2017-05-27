@@ -1,3 +1,1 @@
-.card
-  .card-image
-    = image_tag @page.file_url(:thumbnail)
+= render partial: "pages/show", locals: { page: @page }

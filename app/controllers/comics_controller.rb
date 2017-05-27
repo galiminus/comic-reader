@@ -17,10 +17,14 @@ class ComicsController < ApplicationController
     authorize @comic
   end
 
+  def edit
+    @comic = Comic.find(params[:id])
+  end
+
   def create
     @comic = Comic.new(params.require(:comic).permit(:user_id, :title, :description, page_ids: []))
     authorize @comic
-    
+
     if @comic.save
       redirect_to @comic
     else

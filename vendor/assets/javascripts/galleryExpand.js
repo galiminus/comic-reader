@@ -113,9 +113,12 @@
         };
 
         origin.off('click.galleryExpand').on('click.galleryExpand', function(e) {
+          if ($(e.target).data("link")) {
+            return;
+          }
+
           e.preventDefault();
           e.stopPropagation();
-
           // If already modal, do nothing
           if (!originClickable) {
             return;

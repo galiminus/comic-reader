@@ -14,5 +14,9 @@
           a.carousel-item href="##{page.id}!" 
             = image_tag page.file_url(:thumbnail)
   .gallery-action
-    a.btn-floating.btn-large.waves-effect.waves-light
-      i.material-icons favorite
+    - if policy(comic).edit?
+      = link_to edit_comic_path(comic), class: "btn-floating btn-large waves-effect waves-light"
+        i.material-icons data-link="true" edit
+    - else
+      a.btn-floating.btn-large.waves-effect.waves-light
+        i.material-icons favorite

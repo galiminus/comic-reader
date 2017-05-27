@@ -6,7 +6,7 @@ class ComicPolicy < ApplicationPolicy
   end
 
   def new?
-    record.user == user
+    user && record.user == user
   end
 
   def create?

@@ -17,6 +17,10 @@ $(document).on "turbolinks:load", ->
   dropZoneWrapper = $("#comic-file-upload-dropzone")
   moreImagesButton = $("#more-images")
 
+  reduceUploader = ->
+    dropZoneWrapper.addClass("uploaded")
+    moreImagesButton.addClass("uploaded")
+
   handleUpload = (file) ->
     extension = file.name.split('.').pop()
     evaporate.add
@@ -35,8 +39,7 @@ $(document).on "turbolinks:load", ->
             page:
               s3_file_url: fileUrl
           success: (response) ->
-            dropZoneWrapper.addClass("uploaded")
-            moreImagesButton.addClass("uploaded")
+            reduceUploader();
             $.get "/pages/#{response.id}", (page) ->
               $("#pages")
                 .append(
@@ -68,3 +71,5 @@ $(document).on "turbolinks:load", ->
     dropZoneWrapper.find("[type=file]").click()
 
   dropZoneWrapper.find("[type=file]").change (event) -> handleMultipleUpload(event.target.files)
+
+  reduceUploader() if $("#pages").has(".page").length > 0
