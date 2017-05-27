@@ -13,7 +13,15 @@
 //= require jquery
 //= require rails-ujs
 //= require turbolinks
+//= require turbolinks-jquery
 //= require materialize
+//= require promise-polyfill
 //= require evaporatejs
 //= require Sortable/Sortable
 //= require_tree .
+
+$(document).on("ready turbolinks:load", function() {
+  if (Materialize.updateTextFields) {
+    Materialize.updateTextFields();
+  }
+});

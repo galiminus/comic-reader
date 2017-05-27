@@ -2,49 +2,57 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#comic-file-upload-dropzone {
-  .dropzone {
-    padding: 10em 0px;
-    width: 100%;
-    cursor: pointer;
-    text-align: center;
-    background: image-url("skulls.png");
-    transition: padding 0.4s;
-    height: calc(100% - 465px);
+// #comic-file-upload-dropzone {
+//   .dropzone {
+//     padding: 2em 0px;
+//     width: 100%;
+//     cursor: pointer;
+//     text-align: center;
+//     background: image-url("lined_paper.png");
+//     transition: padding 0.4s;
+//     height: calc(100% - 465px);
+//
+//     .material-icons {
+//       font-size: 7em;
+//     }
+//     p {
+//       font-size: 1.2em;
+//       text-align: center;
+//       color: #666;
+//     }
+//   }
+//   input {
+//     visibility: hidden;
+//   }
+//   &.uploading {
+//     cursor: not-allowed;
+//     opacity: 0.3;
+//   }
+//   &.uploaded {
+//     display: none;
+//   }
+// }
 
-    .material-icons {
-      font-size: 7em;
-      opacity: 0.5;
-    }
-    p {
-      font-size: 1.2em;
-      text-align: center;
-      color: #666;
-    }
-  }
-  input {
+.new_comic, .edit_comic {
+  margin-top: 40px;
+  input[type="file"] {
     visibility: hidden;
-  }
-  &.uploading {
-    cursor: not-allowed;
-    opacity: 0.3;
-  }
-  &.uploaded {
-    display: none;
-  }
-}
-
-#new_comic .card {
-  .card-content {
-    position: relative;
-    overflow: hidden;
+    width: 1;
+    height: 1;
   }
 }
 
 #more-images {
-  opacity: 0;
-  transition: opacity 0.5s;
-  &.uploaded {
-    opacity: 1;
+  &.initial {
+    position: inherit;
+    text-align: center;    
+  }
+}
+
+#delete-images-button, #more-images {
+  transform: scale(0);
+  transition: all 0.2s ease;
+  &.show {
+    transform: scale(1);
   }
 }

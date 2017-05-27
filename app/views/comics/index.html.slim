@@ -1,5 +1,7 @@
 - content_for :navigation
   = render partial: "comics/navigation"
+- content_for(:actions) do
+  = active_link_to 'Upload', new_comic_path,  wrap_tag: 'li', active: :exact
 
 #comics.section.gray
   .container

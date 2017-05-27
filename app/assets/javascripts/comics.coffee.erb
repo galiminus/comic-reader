@@ -14,6 +14,22 @@ evaporate = new Evaporate
   bucket: bucket
 
 $(document).on "turbolinks:load", ->
+  setupPage = (page) ->
+    page.click ->
+      page.toggleClass("selected")
+      if $("#pages .page.selected").length > 0
+        $("#delete-images-button").addClass("show")
+        $("#more-images").removeClass("show")
+      else
+        $("#delete-images-button").removeClass("show")
+        $("#more-images").addClass("show")
+
+  setupPage($(page)) for page in $("#pages .page").toArray()
+  $("#delete-images-button").click ->
+    $("#pages .page.selected").parent(".col").remove();
+    if ("#pages .page.selected").length == 0
+      $("#more-images").addClass("initial")
+    setPagesOrder()
 
   setPagesOrder = ->
     $("#comic_pages_order").val(
@@ -29,17 +45,27 @@ $(document).on "turbolinks:load", ->
       onUpdate: setPagesOrder
     });
 
-  dropZoneWrapper = $("#comic-file-upload-dropzone")
   moreImagesButton = $("#more-images")
 
-  reduceUploader = ->
-    dropZoneWrapper.addClass("uploaded")
-    moreImagesButton.addClass("uploaded")
+  handleAddImage = (id) ->
+    $.get "/pages/#{id}", (page) ->
+      $("#pages")
+        .append(
+          $("<div>").addClass("col s12 m6 l4")
+            .append(page)
+            .append(
+              $("<input>").prop({ type: "hidden", name: "comic[page_ids][]" }).val(id)
+            )
+          )
+      setupPage($(".page[data-id=#{id}]"))
+      setPagesOrder()
+      $("#more-images").removeClass("initial")
+
+    , "html"
 
   handleUpload = (file) ->
-    extension = file.name.split('.').pop()
     evaporate.add
-      name: "#{dropZoneWrapper.data('owner')}/#{Math.floor(Date.now())}.#{extension}"
+      name: "#{moreImagesButton.data('owner')}/#{Math.floor(Date.now())}-#{file.name}"
       file: file
       started: ->
         Materialize.toast("Uploading #{file.name}", 3000)
@@ -48,43 +74,24 @@ $(document).on "turbolinks:load", ->
         fileUrl = aws_url + '/' + bucket + '/' + path
         $.ajax
           method: 'post'
-          url: dropZoneWrapper.data("path")
+          url: moreImagesButton.data("path")
           dataType: "json"
           data:
             page:
               s3_file_url: fileUrl
-          success: (response) ->
-            reduceUploader();
-            $.get "/pages/#{response.id}", (page) ->
-              $("#pages")
-                .append(
-                  $("<div>").addClass("col s12 m6 l4")
-                    .append(page)
-                    .append(
-                      $("<input>").prop({ type: "hidden", name: "comic[page_ids][]" }).val(response.id)
-                    )
-                  )
-              setPagesOrder()
-            , "html"
+          success: (response) -> handleAddImage(response.id)
 
   handleMultipleUpload = (files) ->
-    dropZoneWrapper.addClass("uploading")
-    promises = []
-    promises.push(handleUpload(file)) for file in files
-    # Promise.all(promises).then ->
-
-  dropZoneWrapper.find(".dropzone")
-    .on('dragover', false)
-    .on("drop", (event) -> handleMultipleUpload(event.originalEvent.dataTransfer.files))
-
-  dropZoneWrapper.find(".dropzone").click (event) ->
-    dropZoneWrapper.find("[type=file]").click()
+    return if files.length == 0
+    handleUpload(files[0]).then ->
+      handleMultipleUpload(files.slice(1, files.length))
 
   moreImagesButton.click (event) ->
-    # event.stopPropagation()
     event.preventDefault()
-    dropZoneWrapper.find("[type=file]").click()
+    $("form").find("[type=file]").click()
 
-  dropZoneWrapper.find("[type=file]").change (event) -> handleMultipleUpload(event.target.files)
+  $("form").find("[type=file]").change (event) -> handleMultipleUpload(file for file in event.target.files)
 
-  reduceUploader() if $("#pages").has(".page").length > 0
+  $("#save-comics-button").click (e) ->
+    e.preventDefault();
+    $(".new_comic,.edit_comic").submit()

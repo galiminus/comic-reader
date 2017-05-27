@@ -2,6 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$remove-button-color: #c62828;
+
 .card.page {
-  cursor: move;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.02);
+  }
+  &.selected {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
 }

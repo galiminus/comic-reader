@@ -8,21 +8,20 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag    'http://fonts.googleapis.com/css?family=Lato:300,400,700'
     = stylesheet_link_tag    'https://fonts.googleapis.com/icon?family=Material+Icons'
-  body
-  
-    nav.nav-extended
+  body class="#{content_for(:body_classes)}"
+    nav.nav-extended.blue-grey
       .nav-background
         .pattern.active style=("background-image: url('http://placehold.it/1400x300');") 
       .nav-wrapper.container
         = link_to root_path, class: "brand-logo" do
           i.material-icons view_carousel
-          = ENV["SITE_NAME"]
+          = content_for(:page_title) || ENV["SITE_NAME"]
         a.button-collapse data-activates="nav-mobile" href="#" 
           i.material-icons menu
           ul.right.hide-on-med-and-down
             - if user_signed_in?
-              = active_link_to 'Upload', new_comic_path,  wrap_tag: 'li', active: :exact
-              = active_link_to 'Sign out', destroy_user_session_path,  wrap_tag: 'li', method: :delete, active: :exact
+              - if content_for(:actions)
+                = content_for(:actions)
             - else
                 = active_link_to 'Sign up', new_user_registration_path, wrap_tag: 'li', active: :exact
                 = active_link_to 'Sign in', new_user_session_path, wrap_tag: 'li', active: :exact
@@ -74,7 +73,6 @@ html
     
     = javascript_include_tag "imagesloaded.pkgd.min.js"
     = javascript_include_tag "masonry.pkgd.min.js"
-    = javascript_include_tag "https://cdn.jsdelivr.net/materialize/0.98.0/js/materialize.min.js"
     = javascript_include_tag "color-thief.min.js"
     = javascript_include_tag "galleryExpand.js"
     = javascript_include_tag "gallery.js"

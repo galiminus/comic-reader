@@ -1,33 +1,35 @@
-= form_for @comic do |f|
-  .card.z-depth-0.page-card
-    .card-content
-      = error_messages_for(f.object)
+- content_for(:body_classes) do
+  = "white"
 
-      = f.hidden_field :user_id
-      = f.hidden_field :pages_order, value: Array(f.object.pages_order).to_json
-      
-      .input-field
-        = f.text_field :title
-        = f.label "Title"
-      .input-field
-        = f.text_area :description, class: "materialize-textarea"
-        = f.label "Synopsys"
+- content_for(:actions) do
+  = active_link_to 'Save', "#!",  wrap_tag: 'li', active: :exact, id: "save-comics-button"
+
+= form_for @comic do |f|
+  = error_messages_for(f.object)
+
+  .input-field
+    = f.text_field :title
+    = f.label "Title"
+  .input-field
+    = f.text_area :description, class: "materialize-textarea"
+    = f.label "Synopsys"  
+
+  = f.hidden_field :user_id
+  = f.hidden_field :pages_order, value: Array(f.object.pages_order).to_json
+
+  #pages.sortable-cards.row
+    - @comic.ordered_pages.each do |page|
+      .col.s12.m6.l4
+        = render partial: "pages/show", locals: { page: page }
+        = f.hidden_field :page_ids, value: page.id, multiple: true
         
-      #pages.sortable-cards.row
-        - @comic.ordered_pages.each do |page|
-          .col.s12.m6.l4
-            = render partial: "pages/show", locals: { page: page }
-            = f.hidden_field :page_ids, value: page.id, multiple: true
-            
-      #comic-file-upload-dropzone data-owner=current_user.id data-path=pages_path(format: :json)
-        .dropzone
-          i.material-icons cloud_upload
-          p
-            | Drag and drop all your pages here or click
-        input type="file" multiple="multiple"
-    .card-action.flex-align
-      div
-        button id="more-images" class="btn-flat"
-          i.material-icons.left cloud_upload
-          | Upload more pages
-      = f.button "Save", class: "btn z-depth-0"
+  input type="file" multiple="multiple"
+      
+
+#more-images data-owner=current_user.id data-path=pages_path(format: :json) class="fixed-action-btn show #{@comic.pages.none? ? "initial" : ""}"
+  a.btn-floating.btn-large.blue-grey.darken-1
+    i.large.material-icons note_add
+
+.fixed-action-btn#delete-images-button
+  a.btn-floating.btn-large.red.darken-1
+    i.large.material-icons delete
