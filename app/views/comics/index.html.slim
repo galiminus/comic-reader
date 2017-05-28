@@ -9,4 +9,10 @@
       - @comics.each do |comic|
         .col.l4.m6.s12.gallery-item.gallery-expand.gallery-filter.polygon data-opened="#{@comic.present? && comic.id == @comic.id}" data-route="#{comic_path(comic)}"
           = render partial: "comics/comic", locals: { comic: comic }
-  
+
+- @comics.each do |comic|
+  .full-screen-carousel data-comic-id=comic.id
+    .carousel
+      - comic.ordered_pages.each do |page|
+        a.carousel-item href="##{page.id}!" 
+          = image_tag page.file_url(:original)

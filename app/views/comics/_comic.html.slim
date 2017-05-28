@@ -10,9 +10,10 @@
     = format_text(comic.description)
     .carousel-wrapper
       .carousel
-        - comic.ordered_pages.each do |page|
-          a.carousel-item href="##{page.id}!" 
-            = image_tag page.file_url(:thumbnail)
+        - comic.ordered_pages.each.with_index do |page, index|
+          a.carousel-item href="##{page.id}!" data-comic-id=comic.id data-page-index=index
+            = image_tag page.file_url(:original)
+    
   .gallery-action
     - if policy(comic).edit?
       = link_to edit_comic_path(comic), class: "btn-floating btn-large waves-effect waves-light blue-grey darken-1"

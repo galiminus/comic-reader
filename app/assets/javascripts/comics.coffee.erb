@@ -40,7 +40,7 @@ $(document).on "turbolinks:load", ->
     toggleSave()
     $("#delete-images-button").removeClass("show")
     $("#more-images").addClass("show")
-    
+
   setPagesOrder = ->
     $("#comic_pages_order").val(
       JSON.stringify(($(child).data("id") for child in $("#pages .page").toArray()))
@@ -106,3 +106,15 @@ $(document).on "turbolinks:load", ->
   $("#save-comics-button").click (e) ->
     e.preventDefault();
     $(".new_comic,.edit_comic").submit()
+
+$(document).on "turbolinks:load", ->
+  $(".gallery-body .carousel .carousel-item").click ->
+    carousel = $(".full-screen-carousel[data-comic-id=#{$(this).data("comic-id")}]")
+    carousel.addClass("active")
+    carousel.find(".carousel").carousel
+      dist: 0
+      noWrap: true
+    carousel.find(".carousel").carousel("set", $(this).data("page-index"))
+    carousel.find(".carousel-item").click (e) ->
+      e.preventDefault();
+      carousel.removeClass("active")
