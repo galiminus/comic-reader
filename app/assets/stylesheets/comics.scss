@@ -9,6 +9,17 @@
     width: 1;
     height: 1;
   }
+  .card.page {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      transform: scale(1.02);
+    }
+    &.selected {
+      transform: scale(0.9);
+      opacity: 0.6;
+    }
+  }
 }
 
 #more-images {
@@ -24,19 +35,6 @@
   &.show {
     transform: scale(1);
   }
-
-  .card.page {
-    cursor: pointer;
-    transition: all 0.1s ease-in-out;
-    &:hover {
-      transform: scale(1.02);
-    }
-    &.selected {
-      transform: scale(0.9);
-      opacity: 0.6;
-    }
-  }
-
 }
 
 .full-screen-carousel {
