@@ -20,7 +20,8 @@ $(document).on "turbolinks:load", ->
     else
       $("#save-comics-button").addClass("disabled")
   $("#comic_title").keyup(toggleSave)
-
+  toggleSave()
+  
   setupPage = (page) ->
     page.click ->
       page.toggleClass("selected")
@@ -108,6 +109,8 @@ $(document).on "turbolinks:load", ->
     $(".new_comic,.edit_comic").submit()
 
 $(document).on "turbolinks:load", ->
+
+
   $(".gallery-body .carousel .carousel-item").click ->
     carousel = $(".full-screen-carousel[data-comic-id=#{$(this).data("comic-id")}]")
     carousel.addClass("active")

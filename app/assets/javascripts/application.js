@@ -18,6 +18,7 @@
 //= require promise-polyfill
 //= require evaporatejs
 //= require Sortable/Sortable
+//= require swiper
 //= require_tree .
 
 $(document).on("ready turbolinks:load", function() {

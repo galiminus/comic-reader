@@ -1,0 +1,6 @@
+- if user_signed_in?
+  - if content_for(:actions)
+    = content_for(:actions)
+- else
+    = active_link_to 'Sign up', new_user_registration_path, wrap_tag: 'li', active: :exact
+    = active_link_to 'Sign in', new_user_session_path, wrap_tag: 'li', active: :exact

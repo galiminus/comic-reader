@@ -8,12 +8,23 @@
       h3= comic.title
       / span.price $29.99
     = format_text(comic.description)
-    .carousel-wrapper
-      .carousel
-        - comic.ordered_pages.each.with_index do |page, index|
-          a.carousel-item href="##{page.id}!" data-comic-id=comic.id data-page-index=index
-            = image_tag page.file_url(:original)
-    
+    / .carousel-wrapper
+    /   .carousel
+    /     - comic.ordered_pages.each.with_index do |page, index|
+    /       a.carousel-item href="##{page.id}!" data-comic-id=comic.id data-page-index=index
+    /         = image_tag page.file_url(:original)
+
+    / .swiper-container
+    /   .swiper-wrapper
+    /     - comic.ordered_pages.each.with_index do |page, index|
+    /       .swiper-slide
+    /         = image_tag page.file_url(:original)
+    /   .swiper-pagination
+    .row
+      - comic.ordered_pages.each.with_index do |page, index|
+        .col.s12.m6.l4
+          = render partial: "pages/show", locals: { page: page }
+
   .gallery-action
     - if policy(comic).edit?
       = link_to edit_comic_path(comic), class: "btn-floating btn-large waves-effect waves-light blue-grey darken-1"

@@ -180,6 +180,7 @@ GEM
     rails-assets-dropzone (4.3.0)
     rails-assets-evaporatejs (2.0.9)
     rails-assets-promise-polyfill (6.0.2)
+    rails-assets-swiper (3.4.2)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -290,6 +291,7 @@ DEPENDENCIES
   rails-assets-dropzone!
   rails-assets-evaporatejs (~> 2.0.9)!
   rails-assets-promise-polyfill!
+  rails-assets-swiper!
   rails_autolink
   ruby-hmac
   sass-rails (~> 5.0)

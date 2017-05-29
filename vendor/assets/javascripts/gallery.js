@@ -91,6 +91,15 @@
         dist: 0,
         padding: 10
       });
+			var swiper = new Swiper(el.find('.swiper-container'), {
+				pagination: '.swiper-pagination',
+ 				slidesPerView: 'auto',
+				centeredSlides: true,
+				paginationClickable: true,
+				spaceBetween: 10,
+				autoHeight: true,
+				grabCursor: true
+			});
     };
     $('.gallery-expand').galleryExpand({
       onShow: onShow,

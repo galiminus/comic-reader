@@ -19,12 +19,7 @@ html
         a.button-collapse data-activates="nav-mobile" href="#" 
           i.material-icons menu
           ul.right.hide-on-med-and-down
-            - if user_signed_in?
-              - if content_for(:actions)
-                = content_for(:actions)
-            - else
-                = active_link_to 'Sign up', new_user_registration_path, wrap_tag: 'li', active: :exact
-                = active_link_to 'Sign in', new_user_session_path, wrap_tag: 'li', active: :exact
+            = render partial: "layouts/navigation"
 
         /! Dropdown Structure
         ul#feature-dropdown.dropdown-content
@@ -40,34 +35,7 @@ html
       = yield :navigation
 
     ul#nav-mobile.side-nav
-      li.active
-        a href="index.html" 
-          i.material-icons camera
-          | Gallery
-      li
-        a href="index-dark.html" 
-          i.material-icons brightness_3
-          | Dark Theme
-      li
-        a href="blog.html" 
-          i.material-icons edit
-          | Blog
-      li
-        a href="docs.html" 
-          i.material-icons school
-          | Docs
-      li
-        a href="full-header.html" 
-          i.material-icons fullscreen
-          | Fullscreen Header
-      li
-        a href="horizontal.html" 
-          i.material-icons swap_horiz
-          | Horizontal Style
-      li
-        a href="no-image.html" 
-          i.material-icons texture
-          | No Image Expand
+      = render partial: "layouts/navigation"
 
     = yield
     
